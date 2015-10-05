@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row">
+    {{#each productReviews}}
+      <div class="col-md-4", style="height: 150px; margin-top:10px;">
+        <a href="/products/{{this.id}}">
+          <h3>{{this.product.name}}</h3>
+          <img src="{{this.product.productImages.1.url}}" style="float: left;"/>
+          <p style="width: 50%;margin-left: 10px;float: left;">{{this.content}}</p>
+        </a>
+      </div>
+    {{/each}}
+  </div>
+  
+</div>
+<!--
+  block content
+      .container
+        each review, index in productReviews
+          if index%3==0 && index<9
+            .row
+              each i in [0,1,2]
+                div(class="col-md-4", style="height: 150px; margin-top:10px;")
+                  a(href="/products/#{review.id}")
+                    h3= productReviews[index+i].product.name
+                    img(src="#{productReviews[index+i].product.productImages[1].url}", style="float: left;")
+                    p(style="width: 50%;margin-left: 10px;float: left;")= productReviews[index+i].content
+-->
