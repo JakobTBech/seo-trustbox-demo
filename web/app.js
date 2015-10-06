@@ -6,6 +6,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// If we're not operating in NITROUS-world then we'll read a local config.json file
+if (!process.env['NITROUS_USERNAME']) {
+  var localConfig = require('./config.json');
+  for (var key in localConfig) {
+    process.env[key] = localConfig[key];
+  }
+}
+
 // Start the web application
 var app = express();
 
