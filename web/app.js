@@ -29,15 +29,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Get the Routes code
 var routes = require('./routes/index');
-var seo = require('./routes/seo');
 var auth = require('./routes/auth');
 var products = require('./routes/products');
+// var seo = require('./routes/seo');
 
 // Set the Routes to use
 app.use('/', routes);
-app.use('/seo', seo);
 app.use('/auth', auth);
 app.use('/products', products);
+//app.use('/seo', seo);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

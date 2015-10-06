@@ -18,11 +18,23 @@ router.route('/:productId').get(function(req, res, next) {
     // Get the review/product data
     getProduct(authData, req.productId).then(function(reviewData){
       // Get the SEO TrustBox data
-      getHtmlForSeoTrustBox(reviewData).then(function(seoTrustBoxHtml){
-        reviewData.seoHtml = seoTrustBoxHtml;
-        reviewData.title = 'Product details';
-        res.render('product', reviewData);
-      });
+
+      /******
+       * CALLING THE SEO TRUSTBOX API
+       */
+      /*
+       getHtmlForSeoTrustBox(reviewData).then(function(seoTrustBoxHtml){
+         reviewData.seoHtml = seoTrustBoxHtml;
+         reviewData.title = 'Product details';
+         res.render('product', reviewData);
+       });
+      */
+      /******
+       * CALLING THE SEO TRUSTBOX API
+       */
+
+      reviewData.title = 'Product details';
+      res.render('product', reviewData);
     });
   });
 });
@@ -68,35 +80,6 @@ function getProduct(authData, id){
   });
 
   reviewRequest.end();
-
-  return deferred.promise;
-}
-
-function getHtmlForSeoTrustBox(reviewData){
-  var deferred = q.defer();
-
-  var seoRequestOptions = {
-    path: '/seo/'+reviewData.product.sku+'/'+querystring.escape(reviewData.product.name),
-    port: '3000'
-  };
-
-  var seoRequest = http.request(seoRequestOptions, function(seoResponse) {
-    var seoTrustBoxHtml = '';
-
-    seoResponse.on('data', function (chunk) {
-      seoTrustBoxHtml += chunk;
-    });
-
-    seoResponse.on('end', function() {
-      deferred.resolve(seoTrustBoxHtml);
-    });
-  });
-
-  seoRequest.on('error', function(err){
-    console.log('an error ocurred:', err.message)
-  });
-
-  seoRequest.end();
 
   return deferred.promise;
 }
@@ -162,5 +145,40 @@ function auth() {
 
   return deferred.promise;
 }
+
+/******
+ * FUNCTION FOR CALLING SEO TRUSTBOX API
+ */
+
+/*
+function getHtmlForSeoTrustBox(reviewData){
+  var deferred = q.defer();
+
+  var seoRequestOptions = {
+    path: '/seo/'+reviewData.product.sku+'/'+querystring.escape(reviewData.product.name),
+    port: '3000'
+  };
+
+  var seoRequest = http.request(seoRequestOptions, function(seoResponse) {
+    var seoTrustBoxHtml = '';
+
+    seoResponse.on('data', function (chunk) {
+      seoTrustBoxHtml += chunk;
+    });
+
+    seoResponse.on('end', function() {
+      deferred.resolve(seoTrustBoxHtml);
+    });
+  });
+
+  seoRequest.on('error', function(err){
+    console.log('an error ocurred:', err.message)
+  });
+
+  seoRequest.end();
+
+  return deferred.promise;
+}
+*/
 
 module.exports = router;
